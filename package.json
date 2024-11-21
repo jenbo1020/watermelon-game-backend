@@ -4,22 +4,7 @@
     "main": "index.js",
     "private": true,
     "scripts": {
-        "start":"node index.js",
-        "dev": "tsrpc dev",
-        "dev:sit": "cross-env NODE_ENV=sit tsrpc dev",
-        "dev:release": "cross-env NODE_ENV=release tsrpc dev",
-        "room:dev": "cross-env NODE_ENV=development tsrpc-cli dev --entry src/room.ts",
-        "room:sit": "cross-env NODE_ENV=sit ROOM_SERVER_URL=wss://xa-test-api.aigamify.cn/ai-server-room-template ROOM_SERVER_NO=sit001 tsrpc-cli dev --entry src/room.ts",
-        "test": "mocha test/**/*.test.ts",
-        "build": "tsrpc build",
-        "prettier": "prettier --write .",
-        "doc": "tsrpc doc",
-        "proto": "tsrpc proto",
-        "sync": "tsrpc link",
-        "sync:cross": "ts-node ./test/sync.ts && eslint . --fix",
-        "api": "tsrpc api",
-        "lint": "eslint .",
-        "lint:fix": "eslint . --fix"
+        "start":"node index.js"
     },
     "devDependencies": {
         "@babel/parser": "^7.17.3",
