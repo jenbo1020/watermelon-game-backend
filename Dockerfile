@@ -4,6 +4,7 @@ FROM node:16
 RUN npm config set registry https://registry.npmmirror.com
 
 # npm install
+WORKDIR .
 RUN npm i
 
 EXPOSE 3000
