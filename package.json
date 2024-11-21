@@ -4,6 +4,7 @@
     "main": "index.js",
     "private": true,
     "scripts": {
+        "start":"node index.js",
         "dev": "tsrpc dev",
         "dev:sit": "cross-env NODE_ENV=sit tsrpc dev",
         "dev:release": "cross-env NODE_ENV=release tsrpc dev",
