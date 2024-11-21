@@ -1,28 +1,20 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      - echo Installing dependencies...
-      - apt-get update && apt-get install -y zip
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
-      - aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+      - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com
   build:
     commands:
-      - echo Building Docker image...
-      - docker build -t my-app .
-      - docker tag my-app:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/my-app:latest
+      - echo Building the Docker image...
+      - docker build -t watermelon-game-backend .
+      - docker tag watermelon-game-backend:latest 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com/watermelon-game-backend:latest
   post_build:
     commands:
-      - echo Pushing Docker image to ECR...
-      - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/my-app:latest
-      - echo Creating deployment package...
-      - echo '{"AWSEBDockerrunVersion":"1","Image":{"Name":"'$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/my-app:latest'","Update":"true"}}' > Dockerrun.aws.json
-      - zip deployment.zip Dockerrun.aws.json
-      - aws s3 cp deployment.zip s3://$S3_BUCKET_NAME/deployment.zip
+      - echo Pushing the Docker image to Amazon ECR...
+      - docker push 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com/watermelon-game-backend:latest
 
 artifacts:
   files:
-    - deployment.zip
+    - '**/*'
