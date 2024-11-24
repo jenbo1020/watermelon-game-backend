@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 76,
+    "version": 77,
     "services": [
         {
             "id": 51,
@@ -2516,15 +2516,6 @@ exports.serviceProto = {
         },
         "m/order/ton/PtlCallback/ReqCallback": {
             "type": "Interface",
-            "extends": [
-                {
-                    "id": 0,
-                    "type": {
-                        "type": "Reference",
-                        "target": "Base/BaseRequest"
-                    }
-                }
-            ],
             "properties": [
                 {
                     "id": 0,
