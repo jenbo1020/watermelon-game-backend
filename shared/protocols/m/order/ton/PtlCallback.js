@@ -2,5 +2,5 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.conf = void 0;
 exports.conf = {
-    needLogin: true
+    needLogin: false
 };

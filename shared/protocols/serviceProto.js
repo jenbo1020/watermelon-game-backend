@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 77,
+    "version": 78,
     "services": [
         {
             "id": 51,
@@ -169,7 +169,7 @@ exports.serviceProto = {
             "name": "m/order/ton/Callback",
             "type": "api",
             "conf": {
-                "needLogin": true
+                "needLogin": false
             }
         },
         {
