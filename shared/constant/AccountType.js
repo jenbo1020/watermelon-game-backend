@@ -7,6 +7,7 @@ var AccountType;
     AccountType["POINT"] = "POINT";
     /** 次数 */
     AccountType["TIMES"] = "TIMES";
+    /**  */
 })(AccountType = exports.AccountType || (exports.AccountType = {}));
 exports.AccountTypeName = {
     POINT: '积分',

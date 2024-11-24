@@ -6,7 +6,6 @@ const serverConfig = {
     PORT: 3000,
     JSON_HOST_PATH: '/watermelon-game-server',
     MONGO: {
-        // URI: 'mongodb://root:aigamify_666@123.249.39.144:27017,124.70.70.142:27017/lowcode-platform?authSource=admin&replicaSet=rs0',
         URI: 'mongodb://db_root:HawrjdhRj43faexs@3.25.129.219:27017/tg-watermelon?authSource=admin',
         MAX_POOL_SIZE: 5,
         MIN_POOL_SIZE: 1,

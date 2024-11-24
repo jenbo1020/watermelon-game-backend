@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 73,
+    "version": 76,
     "services": [
         {
             "id": 51,
@@ -135,6 +135,46 @@ exports.serviceProto = {
         {
             "id": 52,
             "name": "m/notify/GetNotifyList",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
+            "id": 75,
+            "name": "m/order/CreatePayment",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
+            "id": 76,
+            "name": "m/order/PaymentCallback",
+            "type": "api",
+            "conf": {
+                "needLogin": false
+            }
+        },
+        {
+            "id": 77,
+            "name": "m/order/VerifyPayment",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
+            "id": 79,
+            "name": "m/order/ton/Callback",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
+            "id": 78,
+            "name": "m/order/ton/CreatePayment",
             "type": "api",
             "conf": {
                 "needLogin": true
@@ -1441,44 +1481,169 @@ exports.serviceProto = {
             ],
             "properties": [
                 {
-                    "id": 0,
-                    "name": "loading",
+                    "id": 2,
+                    "name": "loadingPage",
                     "type": {
-                        "type": "String"
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "activeCard",
+                                "type": {
+                                    "type": "String"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "mainPage",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "ads",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "activeAwardScores",
+                                "type": {
+                                    "type": "Array",
+                                    "elementType": {
+                                        "type": "Interface",
+                                        "properties": [
+                                            {
+                                                "id": 0,
+                                                "name": "icon",
+                                                "type": {
+                                                    "type": "String"
+                                                }
+                                            },
+                                            {
+                                                "id": 1,
+                                                "name": "score",
+                                                "type": {
+                                                    "type": "Number"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "buttonConfig",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "reviveBtn",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "gameOverBtn",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "name": "gameProp_1",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            },
+                            {
+                                "id": 3,
+                                "name": "gameProp_2",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            },
+                            {
+                                "id": 4,
+                                "name": "gameProp_3",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            },
+                            {
+                                "id": 5,
+                                "name": "gameProp_4",
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../constant/ButtonType/IButtonConfigItem"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "drawConfig",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "moneyGet",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "../constant/ButtonType/IButtonConfigItem": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "btnType",
+                    "type": {
+                        "type": "Reference",
+                        "target": "../constant/ButtonType/EBtnType"
                     }
                 },
                 {
                     "id": 1,
-                    "name": "activity",
+                    "name": "buyPrice",
                     "type": {
-                        "type": "Array",
-                        "elementType": {
-                            "type": "Interface",
-                            "properties": [
-                                {
-                                    "id": 0,
-                                    "name": "cover",
-                                    "type": {
-                                        "type": "String"
-                                    }
-                                },
-                                {
-                                    "id": 1,
-                                    "name": "name",
-                                    "type": {
-                                        "type": "String"
-                                    }
-                                },
-                                {
-                                    "id": 2,
-                                    "name": "content",
-                                    "type": {
-                                        "type": "String"
-                                    }
-                                }
-                            ]
-                        }
-                    }
+                        "type": "Number"
+                    },
+                    "optional": true
+                }
+            ]
+        },
+        "../constant/ButtonType/EBtnType": {
+            "type": "Enum",
+            "members": [
+                {
+                    "id": 0,
+                    "value": "buy"
+                },
+                {
+                    "id": 1,
+                    "value": "share"
                 }
             ]
         },
@@ -2178,6 +2343,296 @@ exports.serviceProto = {
                 {
                     "id": 2,
                     "value": "EVERY_TIME"
+                }
+            ]
+        },
+        "m/order/PtlCreatePayment/ReqCreatePayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "productId",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/PtlCreatePayment/ResCreatePayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "orderId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "paymentUrl",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/PtlPaymentCallback/ReqPaymentCallback": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "orderId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "status",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "amount",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "currency",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "transactionId",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/PtlPaymentCallback/ResPaymentCallback": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "status",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/PtlVerifyPayment/ReqVerifyPayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "orderId",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/PtlVerifyPayment/ResVerifyPayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "data",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "amount",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "currency",
+                                "type": {
+                                    "type": "String"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "m/order/ton/PtlCallback/ReqCallback": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "tx_id",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "wallet_address",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "from_address",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "amount",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "message",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "timestamp",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "state",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/ton/PtlCallback/ResCallback": {
+            "type": "Interface"
+        },
+        "m/order/ton/PtlCreatePayment/ReqCreatePayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "amount",
+                    "type": {
+                        "type": "Number"
+                    }
+                }
+            ]
+        },
+        "m/order/ton/PtlCreatePayment/ResCreatePayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "orderId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "paymentLink",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "qrCode",
+                    "type": {
+                        "type": "String"
+                    }
                 }
             ]
         },
