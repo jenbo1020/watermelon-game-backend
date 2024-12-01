@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 78,
+    "version": 80,
     "services": [
         {
             "id": 51,
@@ -45,6 +45,14 @@ exports.serviceProto = {
             }
         },
         {
+            "id": 81,
+            "name": "m/fruitDraw/CheckMustPrize",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
             "id": 60,
             "name": "m/fruitDraw/Compose",
             "type": "api",
@@ -55,6 +63,14 @@ exports.serviceProto = {
         {
             "id": 59,
             "name": "m/fruitDraw/Draw",
+            "type": "api",
+            "conf": {
+                "needLogin": true
+            }
+        },
+        {
+            "id": 82,
+            "name": "m/fruitDraw/GetInviteConfig",
             "type": "api",
             "conf": {
                 "needLogin": true
@@ -170,6 +186,14 @@ exports.serviceProto = {
             "type": "api",
             "conf": {
                 "needLogin": false
+            }
+        },
+        {
+            "id": 80,
+            "name": "m/order/ton/CheckPayment",
+            "type": "api",
+            "conf": {
+                "needLogin": true
             }
         },
         {
@@ -403,55 +427,77 @@ exports.serviceProto = {
                     }
                 },
                 {
-                    "id": 1,
-                    "name": "activityName",
+                    "id": 8,
+                    "name": "name",
                     "type": {
                         "type": "String"
                     }
                 },
                 {
-                    "id": 6,
-                    "name": "activityCover",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 7,
-                    "name": "activityContent",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 2,
-                    "name": "activityDateStartDate",
+                    "id": 9,
+                    "name": "startDate",
                     "type": {
                         "type": "Number"
                     }
                 },
                 {
-                    "id": 3,
-                    "name": "activityDateEndDate",
+                    "id": 10,
+                    "name": "endDate",
                     "type": {
                         "type": "Number"
                     }
                 },
                 {
-                    "id": 4,
-                    "name": "shareImage",
+                    "id": 11,
+                    "name": "banner",
                     "type": {
-                        "type": "String"
-                    },
-                    "optional": true
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Interface",
+                            "properties": [
+                                {
+                                    "id": 0,
+                                    "name": "url",
+                                    "type": {
+                                        "type": "String"
+                                    }
+                                }
+                            ]
+                        }
+                    }
                 },
                 {
-                    "id": 5,
-                    "name": "shareTitle",
+                    "id": 12,
+                    "name": "showPrizes",
                     "type": {
-                        "type": "String"
-                    },
-                    "optional": true
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Interface",
+                            "properties": [
+                                {
+                                    "id": 0,
+                                    "name": "name",
+                                    "type": {
+                                        "type": "String"
+                                    }
+                                },
+                                {
+                                    "id": 1,
+                                    "name": "icon",
+                                    "type": {
+                                        "type": "String"
+                                    }
+                                },
+                                {
+                                    "id": 2,
+                                    "name": "needScore",
+                                    "type": {
+                                        "type": "Number"
+                                    }
+                                }
+                            ]
+                        }
+                    }
                 }
             ]
         },
@@ -795,6 +841,10 @@ exports.serviceProto = {
                 {
                     "id": 3,
                     "value": "TIMES"
+                },
+                {
+                    "id": 4,
+                    "value": "DRAW"
                 }
             ]
         },
@@ -1072,6 +1122,13 @@ exports.serviceProto = {
             "type": "Interface",
             "properties": [
                 {
+                    "id": 11,
+                    "name": "prizeId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
                     "id": 6,
                     "name": "prizeType",
                     "type": {
@@ -1135,7 +1192,7 @@ exports.serviceProto = {
                 }
             ]
         },
-        "m/fruitDraw/PtlCompose/ReqCompose": {
+        "m/fruitDraw/PtlCheckMustPrize/ReqCheckMustPrize": {
             "type": "Interface",
             "extends": [
                 {
@@ -1149,7 +1206,53 @@ exports.serviceProto = {
             "properties": [
                 {
                     "id": 0,
-                    "name": "activityId",
+                    "name": "drawInfoId",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/fruitDraw/PtlCheckMustPrize/ResCheckMustPrize": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "list",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Reference",
+                            "target": "../common/PrizeField/PrizeField"
+                        }
+                    }
+                }
+            ]
+        },
+        "m/fruitDraw/PtlCompose/ReqCompose": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 1,
+                    "name": "drawInfoId",
                     "type": {
                         "type": "String"
                     }
@@ -1176,6 +1279,38 @@ exports.serviceProto = {
                     "type": {
                         "type": "Reference",
                         "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "drawInfoId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "drawType",
+                    "type": {
+                        "type": "Union",
+                        "members": [
+                            {
+                                "id": 0,
+                                "type": {
+                                    "type": "Literal",
+                                    "literal": "POINT"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "type": {
+                                    "type": "Literal",
+                                    "literal": "DRAW"
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -1212,115 +1347,47 @@ exports.serviceProto = {
                     "type": {
                         "type": "Array",
                         "elementType": {
-                            "type": "Reference",
-                            "target": "m/fruitDraw/PtlDraw/TPrizeListItem"
+                            "type": "Interface",
+                            "properties": [
+                                {
+                                    "id": 0,
+                                    "name": "moduleType",
+                                    "type": {
+                                        "type": "Union",
+                                        "members": [
+                                            {
+                                                "id": 0,
+                                                "type": {
+                                                    "type": "Literal",
+                                                    "literal": "basic"
+                                                }
+                                            },
+                                            {
+                                                "id": 1,
+                                                "type": {
+                                                    "type": "Literal",
+                                                    "literal": "collect"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "id": 1,
+                                    "name": "prize",
+                                    "type": {
+                                        "type": "Reference",
+                                        "target": "../common/PrizeField/PrizeField"
+                                    }
+                                }
+                            ]
                         }
-                    }
+                    },
+                    "optional": true
                 }
             ]
         },
-        "m/fruitDraw/PtlDraw/TPrizeListItem": {
-            "type": "Union",
-            "members": [
-                {
-                    "id": 0,
-                    "type": {
-                        "type": "Reference",
-                        "target": "m/fruitDraw/PtlDraw/IBasicPrize"
-                    }
-                },
-                {
-                    "id": 1,
-                    "type": {
-                        "type": "Reference",
-                        "target": "m/fruitDraw/PtlDraw/ICollectPrize"
-                    }
-                }
-            ]
-        },
-        "m/fruitDraw/PtlDraw/IBasicPrize": {
-            "type": "Interface",
-            "properties": [
-                {
-                    "id": 0,
-                    "name": "moduleType",
-                    "type": {
-                        "type": "Literal",
-                        "literal": "basic"
-                    }
-                },
-                {
-                    "id": 1,
-                    "name": "prizeId",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 2,
-                    "name": "prizeName",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 3,
-                    "name": "prizePic",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 4,
-                    "name": "prizeType",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 5,
-                    "name": "prizePrice",
-                    "type": {
-                        "type": "String"
-                    }
-                }
-            ]
-        },
-        "m/fruitDraw/PtlDraw/ICollectPrize": {
-            "type": "Interface",
-            "properties": [
-                {
-                    "id": 0,
-                    "name": "moduleType",
-                    "type": {
-                        "type": "Literal",
-                        "literal": "collect"
-                    }
-                },
-                {
-                    "id": 1,
-                    "name": "prizeId",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 2,
-                    "name": "prizeName",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 3,
-                    "name": "prizePrice",
-                    "type": {
-                        "type": "String"
-                    }
-                }
-            ]
-        },
-        "m/fruitDraw/PtlGetPrizeList/ReqGetPrizeList": {
+        "m/fruitDraw/PtlGetInviteConfig/ReqGetInviteConfig": {
             "type": "Interface",
             "extends": [
                 {
@@ -1334,9 +1401,222 @@ exports.serviceProto = {
             "properties": [
                 {
                     "id": 0,
-                    "name": "activityId",
+                    "name": "drawInfoId",
                     "type": {
                         "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/fruitDraw/PtlGetInviteConfig/ResGetInviteConfig": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "list",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Intersection",
+                            "members": [
+                                {
+                                    "id": 0,
+                                    "type": {
+                                        "type": "Interface",
+                                        "properties": [
+                                            {
+                                                "id": 0,
+                                                "name": "isFinish",
+                                                "type": {
+                                                    "type": "Boolean"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                {
+                                    "id": 1,
+                                    "type": {
+                                        "target": {
+                                            "type": "Reference",
+                                            "target": "../dbItems/fruitDraw/DbFruitInviteConfig/DbFruitInviteConfig"
+                                        },
+                                        "keys": [
+                                            "stock",
+                                            "sent",
+                                            "update",
+                                            "create"
+                                        ],
+                                        "type": "Omit"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "../dbItems/fruitDraw/DbFruitInviteConfig/DbFruitInviteConfig": {
+            "type": "Intersection",
+            "members": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "../common/CommonField/CommonField"
+                    }
+                },
+                {
+                    "id": 1,
+                    "type": {
+                        "type": "Reference",
+                        "target": "../constant/fruitGame/interface/TFruitInviteConfigPrizeItem"
+                    }
+                },
+                {
+                    "id": 2,
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "_id",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "drawInfoId",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "name": "inviteNum",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "../constant/fruitGame/interface/TFruitInviteConfigPrizeItem": {
+            "type": "Union",
+            "members": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "../constant/fruitGame/interface/IChancePrize"
+                    }
+                },
+                {
+                    "id": 1,
+                    "type": {
+                        "type": "Reference",
+                        "target": "../constant/fruitGame/interface/IMustPrize"
+                    }
+                }
+            ]
+        },
+        "../constant/fruitGame/interface/IChancePrize": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "rewardType",
+                    "type": {
+                        "type": "Literal",
+                        "literal": "chance"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "chanceMultiple",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "chancePrize",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Interface",
+                            "properties": [
+                                {
+                                    "id": 0,
+                                    "name": "drawPrizeId",
+                                    "type": {
+                                        "type": "String"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        "../constant/fruitGame/interface/IMustPrize": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "rewardType",
+                    "type": {
+                        "type": "Literal",
+                        "literal": "must"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "mustPrize",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Reference",
+                            "target": "../common/PrizeField/PrizeField"
+                        }
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "stock",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "sent",
+                    "type": {
+                        "type": "Number"
+                    }
+                }
+            ]
+        },
+        "m/fruitDraw/PtlGetPrizeList/ReqGetPrizeList": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
                     }
                 }
             ]
@@ -1360,41 +1640,80 @@ exports.serviceProto = {
                         "type": "Array",
                         "elementType": {
                             "type": "Reference",
-                            "target": "m/fruitDraw/PtlGetPrizeList/IPrizeItem"
+                            "target": "../common/PrizeField/PrizeField"
                         }
-                    }
-                }
-            ]
-        },
-        "m/fruitDraw/PtlGetPrizeList/IPrizeItem": {
-            "type": "Interface",
-            "properties": [
-                {
-                    "id": 0,
-                    "name": "prizeId",
-                    "type": {
-                        "type": "String"
                     }
                 },
                 {
                     "id": 1,
-                    "name": "prizeName",
+                    "name": "collectPrize",
                     "type": {
-                        "type": "String"
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Intersection",
+                            "members": [
+                                {
+                                    "id": 0,
+                                    "type": {
+                                        "type": "Reference",
+                                        "target": "../common/PrizeField/PrizeField"
+                                    }
+                                },
+                                {
+                                    "id": 1,
+                                    "type": {
+                                        "type": "Interface",
+                                        "properties": [
+                                            {
+                                                "id": 0,
+                                                "name": "sum",
+                                                "type": {
+                                                    "type": "Number"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
                     }
                 },
                 {
                     "id": 2,
-                    "name": "prizePic",
+                    "name": "composePrize",
                     "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 3,
-                    "name": "prizePrice",
-                    "type": {
-                        "type": "String"
+                        "type": "Intersection",
+                        "members": [
+                            {
+                                "id": 0,
+                                "type": {
+                                    "type": "Reference",
+                                    "target": "../common/PrizeField/PrizeField"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "type": {
+                                    "type": "Interface",
+                                    "properties": [
+                                        {
+                                            "id": 0,
+                                            "name": "sum",
+                                            "type": {
+                                                "type": "Number"
+                                            }
+                                        },
+                                        {
+                                            "id": 1,
+                                            "name": "isCompose",
+                                            "type": {
+                                                "type": "Boolean"
+                                            }
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
                     }
                 }
             ]
@@ -1625,10 +1944,26 @@ exports.serviceProto = {
                     }
                 },
                 {
-                    "id": 1,
-                    "name": "buyPrice",
+                    "id": 2,
+                    "name": "priceInfo",
                     "type": {
-                        "type": "Number"
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "price",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "nowPrice",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            }
+                        ]
                     },
                     "optional": true
                 }
@@ -1698,6 +2033,14 @@ exports.serviceProto = {
                     "type": {
                         "type": "String"
                     }
+                },
+                {
+                    "id": 2,
+                    "name": "inviteUid",
+                    "type": {
+                        "type": "String"
+                    },
+                    "optional": true
                 }
             ]
         },
@@ -1745,6 +2088,36 @@ exports.serviceProto = {
                                 "name": "avatar",
                                 "type": {
                                     "type": "String"
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "account",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "times",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "draw",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "name": "point",
+                                "type": {
+                                    "type": "Number"
                                 }
                             }
                         ]
@@ -2571,7 +2944,7 @@ exports.serviceProto = {
         "m/order/ton/PtlCallback/ResCallback": {
             "type": "Interface"
         },
-        "m/order/ton/PtlCreatePayment/ReqCreatePayment": {
+        "m/order/ton/PtlCheckPayment/ReqCheckPayment": {
             "type": "Interface",
             "extends": [
                 {
@@ -2585,9 +2958,58 @@ exports.serviceProto = {
             "properties": [
                 {
                     "id": 0,
+                    "name": "orderId",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
                     "name": "amount",
                     "type": {
                         "type": "Number"
+                    }
+                }
+            ]
+        },
+        "m/order/ton/PtlCheckPayment/ResCheckPayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "status",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "m/order/ton/PtlCreatePayment/ReqCreatePayment": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 1,
+                    "name": "goodsId",
+                    "type": {
+                        "type": "String"
                     }
                 }
             ]
@@ -2612,18 +3034,34 @@ exports.serviceProto = {
                     }
                 },
                 {
+                    "id": 3,
+                    "name": "amount",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "tonToken",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
                     "id": 1,
                     "name": "paymentLink",
                     "type": {
                         "type": "String"
-                    }
+                    },
+                    "optional": true
                 },
                 {
                     "id": 2,
                     "name": "qrCode",
                     "type": {
                         "type": "String"
-                    }
+                    },
+                    "optional": true
                 }
             ]
         },

@@ -8,11 +8,25 @@ const moment_1 = __importDefault(require("moment"));
 const mongodb_1 = require("mongodb");
 async function default_1(call) {
     // 从数据库中获取奖品列表
-    const { activityId } = call.req;
-    const uid = call.userInfo.uid;
-    const prizes = await Global_1.Global.collection('FruitDrawPrize').find({ activityId, isEnabled: true }, { sort: { moduleType: 1, _id: -1 } }).toArray();
+    const { drawInfoId } = call.req;
+    const info = await Global_1.Global.collection('FruitDrawInfo').findOne({ _id: drawInfoId });
+    if (!info) {
+        call.error('抽奖活动不存在');
+        return;
+    }
+    const now = new Date().getTime();
+    if (now < info.startDate) {
+        call.error('抽奖活动未开始');
+        return;
+    }
+    if (now > info.endDate) {
+        call.error('抽奖活动已结束');
+        return;
+    }
+    const userId = call.userInfo.uid;
+    const prizes = await Global_1.Global.collection('FruitDrawPrize').find({ drawInfoId }, { sort: { moduleType: 1, _id: -1 } }).toArray();
     // 验证是否有可用奖品
-    const availablePrizes = prizes.filter(prize => prize.prizeStock > 0 && prize.isEnabled !== false && prize.isRemoved !== true);
+    const availablePrizes = prizes.filter(prize => prize.stock > 0);
     if (availablePrizes.length === 0) {
         call.error('没有可用奖品');
         return;
@@ -30,18 +44,19 @@ async function default_1(call) {
     }
     // 减少奖品库存
     if (selectedPrize) {
-        const success = await updatePrizeStock(selectedPrize._id, 1);
-        if (!success) {
-            call.error('库存不足');
-            return;
+        const result = await Global_1.Global.collection('FruitDrawPrize').findOneAndUpdate({ _id: selectedPrize._id, stock: { $gte: 1 } }, { $inc: { sent: 1, stock: -1 } });
+        // 检查是否成功更新了奖品
+        if (!result.value) {
+            console.error('not stock');
+            selectedPrize = null;
         }
+        // TODO 是否要做单人限制？
     }
-    const todayStart = (0, moment_1.default)().utcOffset(8).startOf('d')
-        .valueOf();
+    const today = (0, moment_1.default)().format('YYY-MM-DD');
     let drawNum = 1, todayDrawNum = 0;
-    const todayDrawLogs = await Global_1.Global.collection('FruitDrawLog').find({ activityId, userOpenId: uid, 'create.time': { $gte: todayStart } }, { sort: { _id: -1 } }).toArray();
+    const todayDrawLogs = await Global_1.Global.collection('FruitDrawLog').find({ drawInfoId, userId, day: today }, { sort: { _id: -1 } }).toArray();
     if (!todayDrawLogs.length) {
-        const lastLog = await Global_1.Global.collection('FruitDrawLog').findOne({ activityId, userOpenId: uid }, { sort: { _id: -1 } });
+        const lastLog = await Global_1.Global.collection('FruitDrawLog').findOne({ drawInfoId, userId }, { sort: { _id: -1 } });
         if (lastLog) {
             drawNum = lastLog.drawNum + 1;
         }
@@ -50,46 +65,35 @@ async function default_1(call) {
         drawNum = todayDrawLogs[0].drawNum + 1;
         todayDrawNum = todayDrawLogs.length + 1;
     }
-    // 创建抽奖记录
-    const drawLog = {
+    const prizeList = selectedPrize ? [{
+            moduleType: selectedPrize.moduleType,
+            prize: selectedPrize.prize
+        }] : [];
+    // 记录抽奖日志
+    await Global_1.Global.collection('FruitDrawLog').insertOne({
         _id: new mongodb_1.ObjectId().toHexString(),
-        userOpenId: uid,
+        drawInfoId,
+        userId,
         drawNum: drawNum,
         isDraw: selectedPrize !== null,
-        isRemoved: false,
-        isEnabled: true,
-        create: {
-            time: new Date().valueOf(),
-            admin: {
-                adminId: call.userInfo.uid,
-                nickname: call.userInfo.nickname
-            }
-        }
-    };
-    // TODO 解决并发问题
-    await createDrawLog(drawLog);
+        prizeList,
+        createDate: now,
+        day: today
+    });
+    // 记录抽中的奖品
+    for (const item of prizeList) {
+        Global_1.Global.collection('FruitDrawUserPrize').insertOne({
+            _id: new mongodb_1.ObjectId().toHexString(),
+            drawInfoId, userId, drawNum,
+            moduleType: item.moduleType, prize: item.prize,
+            createDate: now, day: today
+        });
+        // TODO 奖品发放
+    }
     call.succ({
-        token: call.userInfo.token,
         drawNum,
         todayDrawNum,
-        prizeList: selectedPrize ? [{
-                moduleType: selectedPrize.moduleType,
-                prizeId: selectedPrize._id,
-                prizeName: selectedPrize.prize.prizeName,
-                prizePic: selectedPrize.prize.prizePicture,
-                prizeType: selectedPrize.prize.prizeType,
-                prizePrice: selectedPrize.prize.prizePrice.toString()
-            }] : []
+        prizeList
     });
 }
 exports.default = default_1;
-// 原子更新操作：选择具有足够库存的奖品并减少库存
-async function updatePrizeStock(prizeId, decrementBy) {
-    const result = await Global_1.Global.collection('FruitDrawPrize').findOneAndUpdate({ _id: prizeId, prizeStock: { $gte: decrementBy }, isRemoved: { $ne: true }, isEnabled: { $ne: false } }, { $inc: { prizeStock: -decrementBy } });
-    // 检查是否成功更新了奖品
-    return result.value !== null;
-}
-// 创建抽奖记录的函数
-async function createDrawLog(log) {
-    await Global_1.Global.collection('FruitDrawLog').findOneAndUpdate({ _id: log._id }, { $set: log }, { upsert: true });
-}

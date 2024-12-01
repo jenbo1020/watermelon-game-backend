@@ -10,14 +10,14 @@ async function default_1(call) {
         return;
     }
     const now = Date.now();
-    const { activityDateStartDate, activityDateEndDate } = activity;
+    const { startDate, endDate } = activity;
     let status = ActivityStatus_1.ActivityStatus.NOT_STARTED;
     let statusText = ActivityStatus_1.ActivityStatusName.NOT_STARTED;
-    if (now > activityDateEndDate) {
+    if (now > endDate) {
         status = ActivityStatus_1.ActivityStatus.FINISHED;
         statusText = ActivityStatus_1.ActivityStatusName.FINISHED;
     }
-    else if (now >= activityDateStartDate) {
+    else if (now >= startDate) {
         status = ActivityStatus_1.ActivityStatus.OPENING;
         statusText = ActivityStatus_1.ActivityStatusName.OPENING;
     }

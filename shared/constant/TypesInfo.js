@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EQuestionType = exports.ESmsType = exports.ERoomState = exports.EAccountType = exports.ELoginType = void 0;
+exports.EOrderStatus = exports.ECurrencyType = exports.EQuestionType = exports.ESmsType = exports.ERoomState = exports.EAccountType = exports.ELoginType = void 0;
 /** 登录类型 */
 var ELoginType;
 (function (ELoginType) {
@@ -37,3 +37,19 @@ var EQuestionType;
     /** 猜问 */
     EQuestionType["GUESS"] = "GUESS";
 })(EQuestionType = exports.EQuestionType || (exports.EQuestionType = {}));
+/** 货币类型 */
+var ECurrencyType;
+(function (ECurrencyType) {
+    /** Ton币 */
+    ECurrencyType["Ton"] = "Ton";
+})(ECurrencyType = exports.ECurrencyType || (exports.ECurrencyType = {}));
+/** 订单状态 */
+var EOrderStatus;
+(function (EOrderStatus) {
+    /** 新创建 */
+    EOrderStatus["newCreate"] = "newCreate";
+    /** 成功 */
+    EOrderStatus["success"] = "success";
+    /** 失败 */
+    EOrderStatus["fail"] = "fail";
+})(EOrderStatus = exports.EOrderStatus || (exports.EOrderStatus = {}));

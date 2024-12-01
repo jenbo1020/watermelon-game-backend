@@ -10,9 +10,12 @@ var CostType;
     CostType["DRAW"] = "DRAW";
     /** 兑换 */
     CostType["EXCHANGE"] = "EXCHANGE";
+    /** 系统赠送 */
+    CostType["SYSTEM"] = "SYSTEM";
 })(CostType = exports.CostType || (exports.CostType = {}));
 exports.CostTypeName = {
     GAME: '游戏',
     DRAW: '抽奖',
     EXCHANGE: '兑换',
+    SYSTEM: '系统赠送'
 };

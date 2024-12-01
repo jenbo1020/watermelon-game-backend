@@ -71,5 +71,34 @@ class UserUtil {
         });
         return { beforeAmount, afterAmount };
     }
+    static async getAccount(userId) {
+        let data = {
+            times: 0, draw: 0, point: 0
+        };
+        const list = await Global_1.Global.collection('UserAccount').find({ uid: userId }).toArray();
+        for (const item of list) {
+            data[item.accountType.toLocaleLowerCase()] = item.amount;
+        }
+        return data;
+    }
+    /**
+     * 获取邀请成功的用户数
+     * @param data
+     * @param data.userId 用户id
+     * @param data.startDate 开始时间
+     * @param data.endDate  结束时间
+     * @returns
+     */
+    static async getInviteSum(data) {
+        const match = { inviteUid: data.userId, createDate: { $gte: data.startDate, $lte: data.endDate } };
+        const sum = await Global_1.Global.collection('UserInfo').count(match);
+        return sum;
+    }
+    /**
+     * 获取邀请列表，未实现
+     */
+    static async getInviteList(data) {
+        return data;
+    }
 }
 exports.UserUtil = UserUtil;

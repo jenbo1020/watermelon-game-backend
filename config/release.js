@@ -68,28 +68,6 @@ exports.default = {
         /** 一天内同一手机或者帐号请求次数达到后不能再请求，0不限制，默认0 */
         ipLimit: 1
     },
-    /** AI配置信息 */
-    aiConfig: {
-        apiUrl: 'http://brain.farask.com/api/',
-        appKey: 'a1bxmzjqtngbg8zt',
-        secret: '2c2d159ab82b8cc6fac3a5cdef33179c6834aec1'
-    },
-    /** 淘宝APP信息 */
-    taobaoApp: {
-        appKey: '34365211',
-        appSecret: '4eae0595a2bda26455f89b3ea835aad0'
-    },
-    /** 微盟配置信息 */
-    weimobApp: {
-        clientId: '513346AD2E688C93146833E643E1920F',
-        clientSecret: '72F7E50C9967FE27CD92D68F8D4221B7',
-        shopId: '4020173000530',
-    },
-    /** 京东配置 */
-    jdApp: {
-        appKey: 'B2CF684FA6809B221506FFAE12F101E3',
-        appSecret: '7ce2259f8126445aa4df6174dc04faa1',
-        serverUrl: "https://api.jd.com/routerjson"
-    },
     bot_token: '6573484100:AAGiEVTLDB2mDrH6liD7-Km_1Oh6QnzR7CI',
+    ton_token: 'UQAet-amemkCQ0PJvV6_1UkIqtNJAlKUcD0CsqqqG0lUk3-W'
 };

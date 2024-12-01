@@ -13,10 +13,11 @@ const CostType_1 = require("../../../shared/constant/CostType");
 const bson_1 = require("bson");
 const crypto_1 = require("crypto");
 const config_1 = __importDefault(require("../../../config"));
+const moment_1 = __importDefault(require("moment"));
 // import { Tools } from "../../../utils/Tools";
 async function ApiTgUserLogin(call) {
     var _a, _b;
-    const { initData } = call.req;
+    const { initData, inviteUid } = call.req;
     const data = processTelegramData(initData, config_1.default.bot_token);
     if (data.ok == false) {
         call.error('login error');
@@ -43,13 +44,19 @@ async function ApiTgUserLogin(call) {
         id = new bson_1.ObjectID().toHexString();
         const userData = {
             _id: id,
-            activityId: "default", updateTime: nowDate,
+            activityId: "default",
+            updateTime: nowDate,
             ...userInfo,
             username, languageCode,
-            lastLogin
+            lastLogin,
+            createDate: nowDate,
+            inviteUid
         };
         await Global_1.Global.collection('UserInfo').insertOne(userData);
         log.msg = "注册并登录";
+        if (inviteUid) {
+            userInviteRecord(inviteUid, id);
+        }
     }
     else {
         id = user._id;
@@ -59,10 +66,11 @@ async function ApiTgUserLogin(call) {
     log.uid = id;
     await Global_1.Global.collection('UserLoginLog').insertOne(log);
     const token = TokenManager_1.default.createToken(id, call.req.device.id, nowDate);
-    // 给帐号添加次数
-    await UserUtil_1.UserUtil.addAmount({ uid: id, accountType: AccountType_1.AccountType.TIMES, amount: 10, costType: CostType_1.CostType.GAME });
+    // 每日赠送
+    await checkSystemGive(id);
+    const account = await UserUtil_1.UserUtil.getAccount(id);
     call.succ({
-        token, userInfo
+        token, userInfo, account
     });
 }
 exports.ApiTgUserLogin = ApiTgUserLogin;
@@ -87,4 +95,42 @@ function processTelegramData(qs, token) {
         o[part[0]] = decodeURIComponent(part[1]);
     }
     return { ok: true, data: o };
+}
+/**
+ * 检测系统赠送 每天首次登录赠送游戏次数3次、抽奖2次
+ * @param userId 用户uid
+ * @returns
+ */
+async function checkSystemGive(userId) {
+    const now = (0, moment_1.default)();
+    const day = now.format('YYYY-MM-DD');
+    const nowTime = now.valueOf();
+    const todayLog = await Global_1.Global.collection('UserAccountSystemGiveLog').find({ userId, day }).toArray();
+    let newLogs = [
+        { userId, day, createDate: nowTime, giveType: AccountType_1.AccountType.TIMES, value: 3 },
+        { userId, day, createDate: nowTime, giveType: AccountType_1.AccountType.DRAW, value: 2 }
+    ];
+    for (const log of todayLog) {
+        newLogs = newLogs.filter(a => a.giveType != log.giveType);
+    }
+    if (newLogs.length) {
+        await Global_1.Global.collection('UserAccountSystemGiveLog').insertMany(newLogs);
+        for (const log of newLogs) {
+            await UserUtil_1.UserUtil.addAmount({ uid: userId, accountType: log.giveType, amount: log.value, costType: CostType_1.CostType.SYSTEM });
+        }
+    }
+    return;
+}
+/**
+ * 记录邀请日志
+ * @param inviteUid 邀请人uid
+ * @param userId 被邀请人uid
+ * @returns
+ */
+async function userInviteRecord(inviteUid, userId) {
+    const now = (0, moment_1.default)();
+    const day = now.format('YYYY-MM-DD');
+    const nowTime = now.valueOf();
+    await Global_1.Global.collection('UserInviteRecord').insertOne({ userId, inviteUid, day, createDate: nowTime });
+    return;
 }
