@@ -9,7 +9,7 @@ function UseGetResponse(Server) {
         const conn = v.conn;
         if (conn.httpReq.method === 'GET') {
             console.log(conn.httpReq.url);
-            conn.httpRes.end(`<h1>TSRPC Server</h1><p>Server started at ${startedTime}</p>`);
+            conn.httpRes.end(`<h1>TSRPC Server</h1><p>Server started at ${startedTime}</p><p>v-0.0.8</p>`);
             return undefined;
         }
         return v;

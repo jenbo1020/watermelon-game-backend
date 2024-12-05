@@ -41,7 +41,8 @@ async function default_1(call) {
         return;
     }
     call.succ({
-        recordId: record._id
+        recordId: record._id,
+        times: account.amount - 1
     });
 }
 exports.default = default_1;

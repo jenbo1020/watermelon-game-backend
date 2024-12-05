@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 80,
+    "version": 82,
     "services": [
         {
             "id": 51,
@@ -845,6 +845,10 @@ exports.serviceProto = {
                 {
                     "id": 4,
                     "value": "DRAW"
+                },
+                {
+                    "id": 5,
+                    "value": "DRAW_MONEY"
                 }
             ]
         },
@@ -1772,6 +1776,13 @@ exports.serviceProto = {
                     "type": {
                         "type": "Number"
                     }
+                },
+                {
+                    "id": 1,
+                    "name": "upPer",
+                    "type": {
+                        "type": "String"
+                    }
                 }
             ]
         },
@@ -2012,6 +2023,13 @@ exports.serviceProto = {
                     "type": {
                         "type": "String"
                     }
+                },
+                {
+                    "id": 1,
+                    "name": "times",
+                    "type": {
+                        "type": "Number"
+                    }
                 }
             ]
         },
@@ -2119,6 +2137,14 @@ exports.serviceProto = {
                                 "type": {
                                     "type": "Number"
                                 }
+                            },
+                            {
+                                "id": 3,
+                                "name": "drawMoney",
+                                "type": {
+                                    "type": "Number"
+                                },
+                                "optional": true
                             }
                         ]
                     }
@@ -2819,6 +2845,15 @@ exports.serviceProto = {
         },
         "m/order/PtlPaymentCallback/ResPaymentCallback": {
             "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
             "properties": [
                 {
                     "id": 0,
@@ -2889,6 +2924,15 @@ exports.serviceProto = {
         },
         "m/order/ton/PtlCallback/ReqCallback": {
             "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ],
             "properties": [
                 {
                     "id": 0,
@@ -2942,7 +2986,25 @@ exports.serviceProto = {
             ]
         },
         "m/order/ton/PtlCallback/ResCallback": {
-            "type": "Interface"
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "status",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
         },
         "m/order/ton/PtlCheckPayment/ReqCheckPayment": {
             "type": "Interface",
@@ -3082,7 +3144,8 @@ exports.serviceProto = {
                     "name": "rankInfoId",
                     "type": {
                         "type": "String"
-                    }
+                    },
+                    "optional": true
                 }
             ]
         },
@@ -3198,11 +3261,14 @@ exports.serviceProto = {
                     }
                 },
                 {
-                    "id": 4,
-                    "name": "prizeInfo",
+                    "id": 5,
+                    "name": "prizeList",
                     "type": {
-                        "type": "Reference",
-                        "target": "../common/PrizeField/PrizeField"
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Reference",
+                            "target": "../common/PrizeField/PrizeField"
+                        }
                     }
                 }
             ]
@@ -3430,8 +3496,11 @@ exports.serviceProto = {
                                     "id": 5,
                                     "name": "prize",
                                     "type": {
-                                        "type": "Reference",
-                                        "target": "../common/PrizeField/PrizeField"
+                                        "type": "Array",
+                                        "elementType": {
+                                            "type": "Reference",
+                                            "target": "../common/PrizeField/PrizeField"
+                                        }
                                     },
                                     "optional": true
                                 },
@@ -3452,6 +3521,77 @@ exports.serviceProto = {
                                 }
                             ]
                         }
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "myRank",
+                    "type": {
+                        "type": "Interface",
+                        "properties": [
+                            {
+                                "id": 0,
+                                "name": "uid",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "name": "nickname",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 2,
+                                "name": "avatar",
+                                "type": {
+                                    "type": "String"
+                                }
+                            },
+                            {
+                                "id": 3,
+                                "name": "rankNo",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 4,
+                                "name": "value",
+                                "type": {
+                                    "type": "Number"
+                                }
+                            },
+                            {
+                                "id": 5,
+                                "name": "prize",
+                                "type": {
+                                    "type": "Array",
+                                    "elementType": {
+                                        "type": "Reference",
+                                        "target": "../common/PrizeField/PrizeField"
+                                    }
+                                },
+                                "optional": true
+                            },
+                            {
+                                "id": 6,
+                                "name": "received",
+                                "type": {
+                                    "type": "Boolean"
+                                }
+                            },
+                            {
+                                "id": 7,
+                                "name": "receivedDate",
+                                "type": {
+                                    "type": "Number"
+                                },
+                                "optional": true
+                            }
+                        ]
                     }
                 }
             ]

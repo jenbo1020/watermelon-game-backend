@@ -73,7 +73,7 @@ class UserUtil {
     }
     static async getAccount(userId) {
         let data = {
-            times: 0, draw: 0, point: 0
+            times: 0, draw: 0, point: 0, drawMoney: 0
         };
         const list = await Global_1.Global.collection('UserAccount').find({ uid: userId }).toArray();
         for (const item of list) {

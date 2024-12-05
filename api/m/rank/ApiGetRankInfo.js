@@ -6,13 +6,22 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Global_1 = require("../../../model/Global");
 const moment_1 = __importDefault(require("moment"));
 async function default_1(call) {
-    const { rankInfoId } = call.req;
-    const info = await Global_1.Global.collection('RankInfo').findOne({ _id: rankInfoId });
+    let { rankInfoId } = call.req;
+    const now = new Date().getTime();
+    let match;
+    if (rankInfoId) {
+        match = { _id: rankInfoId };
+    }
+    else {
+        match = { startDate: { $lte: now }, endDate: { $gte: now } };
+    }
+    console.log('match:', match);
+    const info = await Global_1.Global.collection('RankInfo').findOne(match);
     if (!info) {
         call.error('信息错误');
         return;
     }
-    const now = new Date().getTime();
+    rankInfoId = info._id;
     let statusName = "进行中";
     if (now > info.endDate) {
         statusName = "已结束";

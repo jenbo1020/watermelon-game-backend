@@ -29,11 +29,13 @@ async function default_1(call) {
         return;
     }
     // 入排行榜
+    let upPer = "0%";
     const match = { startDate: { $lte: now }, endDate: { $gte: now } };
     const rankInfo = await Global_1.Global.collection('RankInfo').findOne(match);
     if (rankInfo) {
         await RankUtil_1.RankUtil.updateUserRecord({ rankInfoId: rankInfo._id, uid: call.userInfo.uid, value });
+        upPer = await RankUtil_1.RankUtil.updateUserSingleRecord({ rankInfoId: rankInfo._id, uid: call.userInfo.uid, score: value });
     }
-    call.succ({ totalValue: result.afterAmount });
+    call.succ({ totalValue: result.afterAmount, upPer });
 }
 exports.default = default_1;
