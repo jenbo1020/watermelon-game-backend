@@ -5,16 +5,22 @@ phases:
     commands:
       - echo Logging in to Amazon ECR...
       - aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com
+      - REPOSITORY_URI=559050230964.dkr.ecr.ap-southeast-2.amazonaws.com/watermelon-game-backend
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+
   build:
     commands:
+      - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t watermelon-game-backend .
-      - docker tag watermelon-game-backend:latest 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com/watermelon-game-backend:latest
+      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
+      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+
   post_build:
     commands:
-      - echo Pushing the Docker image to Amazon ECR...
-      - docker push 559050230964.dkr.ecr.ap-southeast-2.amazonaws.com/watermelon-game-backend:latest
-
+      - echo Build completed on `date`
+      - echo Pushing the Docker image to ECR...
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:latest
 artifacts:
   files:
     - '**/*'
