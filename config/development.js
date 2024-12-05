@@ -6,8 +6,8 @@ const serverConfig = {
     PORT: 3000,
     JSON_HOST_PATH: '/watermelon-game-server',
     MONGO: {
-        URI: 'mongodb://root:HawrjdhRj43faexs@43.139.37.201:27017/tg-watermelon?authSource=admin',
-        //URI: 'mongodb://db_root:HawrjdhRj43faexs@3.25.129.219:27017/tg-watermelon?authSource=admin',
+        //URI: 'mongodb://root:HawrjdhRj43faexs@43.139.37.201:27017/tg-watermelon?authSource=admin',
+        URI: 'mongodb://db_root:HawrjdhRj43faexs@3.25.129.219:27017/tg-watermelon?authSource=admin',
         MAX_POOL_SIZE: 5,
         MIN_POOL_SIZE: 1,
     },
