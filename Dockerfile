@@ -10,5 +10,6 @@ EXPOSE 3000
 
 COPY . .
 
-# CMD ["npm", "start"]
-CMD node index.js
+RUN ls -of
+CMD ["npm", "start"]
+# CMD node index.js

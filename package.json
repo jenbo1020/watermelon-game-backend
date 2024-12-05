@@ -14,7 +14,7 @@
     "sync:cross": "ts-node ./test/sync.ts && eslint . --fix",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "start": "node index.js"
+    "start": "node index2.js"
   },
   "devDependencies": {
     "@babel/parser": "^7.17.3",
