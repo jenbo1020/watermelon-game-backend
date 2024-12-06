@@ -1,5 +1,5 @@
 # 使用官方的Node.js运行时作为父镜像
-FROM node:14
+FROM node:16
 
 # 设置工作目录为/app
 WORKDIR /app
