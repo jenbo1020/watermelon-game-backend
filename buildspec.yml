@@ -12,8 +12,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t $REPOSITORY_URI:$IMAGE_TAG .
-      - docker tag $REPOSITORY_URI:$IMAGE_TAG $REPOSITORY_URI:latest
+      - docker build -t watermelon-game-backend:$IMAGE_TAG .
+      - docker tag watermelon-game-backend:$IMAGE_TAG $REPOSITORY_URI:latest
 
   post_build:
     commands:
@@ -23,4 +23,4 @@ phases:
       - docker push $REPOSITORY_URI:latest
 artifacts:
   files:
-    - '**/*'
+    - "**/*"
