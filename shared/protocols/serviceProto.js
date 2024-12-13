@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.serviceProto = void 0;
 exports.serviceProto = {
-    "version": 82,
+    "version": 84,
     "services": [
         {
             "id": 51,
@@ -10,6 +10,14 @@ exports.serviceProto = {
             "type": "api",
             "conf": {
                 "needLogin": false
+            }
+        },
+        {
+            "id": 83,
+            "name": "m/airdrop/GetConfig",
+            "type": "api",
+            "conf": {
+                "needLogin": true
             }
         },
         {
@@ -620,6 +628,220 @@ exports.serviceProto = {
                 {
                     "id": 3,
                     "value": "OFFLINE"
+                }
+            ]
+        },
+        "m/airdrop/PtlGetConfig/ReqGetConfig": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseRequest"
+                    }
+                }
+            ]
+        },
+        "m/airdrop/PtlGetConfig/ResGetConfig": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "Base/BaseResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "data",
+                    "type": {
+                        "type": "Union",
+                        "members": [
+                            {
+                                "id": 2,
+                                "type": {
+                                    "type": "Interface",
+                                    "properties": [
+                                        {
+                                            "id": 0,
+                                            "name": "amount",
+                                            "type": {
+                                                "type": "Number"
+                                            }
+                                        },
+                                        {
+                                            "id": 1,
+                                            "name": "game",
+                                            "type": {
+                                                "type": "Interface",
+                                                "properties": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "times",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "name": "amount",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "name": "finish",
+                                                        "type": {
+                                                            "type": "Boolean"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": 2,
+                                            "name": "composited",
+                                            "type": {
+                                                "type": "Interface",
+                                                "properties": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "times",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "name": "amount",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "name": "finish",
+                                                        "type": {
+                                                            "type": "Boolean"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": 3,
+                                            "name": "invite",
+                                            "type": {
+                                                "type": "Interface",
+                                                "properties": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "times",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "name": "amount",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "name": "finish",
+                                                        "type": {
+                                                            "type": "Boolean"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": 4,
+                                            "name": "buy",
+                                            "type": {
+                                                "type": "Interface",
+                                                "properties": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "times",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "name": "amount",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "name": "finish",
+                                                        "type": {
+                                                            "type": "Boolean"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        },
+                                        {
+                                            "id": 5,
+                                            "name": "rank",
+                                            "type": {
+                                                "type": "Interface",
+                                                "properties": [
+                                                    {
+                                                        "id": 0,
+                                                        "name": "min",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "name": "max",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "name": "amount",
+                                                        "type": {
+                                                            "type": "Number"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id": 3,
+                                                        "name": "finish",
+                                                        "type": {
+                                                            "type": "Boolean"
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "id": 1,
+                                "type": {
+                                    "type": "Literal",
+                                    "literal": null
+                                }
+                            }
+                        ]
+                    }
                 }
             ]
         },
@@ -1744,6 +1966,13 @@ exports.serviceProto = {
                 {
                     "id": 1,
                     "name": "value",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "compositedTimes",
                     "type": {
                         "type": "Number"
                     }

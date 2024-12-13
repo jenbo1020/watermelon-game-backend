@@ -6,16 +6,16 @@ const CostType_1 = require("../../../shared/constant/CostType");
 const UserUtil_1 = require("../../../model/UserUtil");
 const RankUtil_1 = require("../../../model/RankUtil");
 async function default_1(call) {
-    const { recordId, value, extData } = call.req;
+    const { recordId, value, compositedTimes, extData } = call.req;
     const record = await Global_1.Global.collection('GameUserRecord').findOne({ _id: recordId });
-    if (!record || record.uid != call.userInfo.uid) {
+    if (!record || record.uid != call.userInfo.uid || record.endDate > 0) {
         call.error('report error');
         return;
     }
     const now = new Date().valueOf();
     const update = await Global_1.Global.collection('GameUserRecord').updateOne({ _id: record._id }, {
         $set: {
-            value, endDate: now, gameDuration: now - record.startDate, extData
+            value, compositedTimes, endDate: now, gameDuration: now - record.startDate, extData
         }
     });
     if (!update || !update.modifiedCount) {

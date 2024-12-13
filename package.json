@@ -4,17 +4,15 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "dev:sit": "cross-env NODE_ENV=sit tsrpc dev",
-    "dev:release": "cross-env NODE_ENV=release tsrpc dev",
-    "room:dev": "cross-env NODE_ENV=development tsrpc-cli dev --entry src/room.ts",
-    "room:sit": "cross-env NODE_ENV=sit ROOM_SERVER_URL=wss://xa-test-api.aigamify.cn/ai-server-room-template ROOM_SERVER_NO=sit001 tsrpc-cli dev --entry src/room.ts",
+    "start": "node index.js",
     "test": "mocha test/**/*.test.ts",
     "prettier": "prettier --write .",
     "doc": "tsrpc doc",
     "sync:cross": "ts-node ./test/sync.ts && eslint . --fix",
+    "buildAndCopy": "npm run build && npm run copyToGame",
+    "copyToGame": "cp -r dist/ ../watermelon-game-backend/",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "start": "node index.js"
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@babel/parser": "^7.17.3",

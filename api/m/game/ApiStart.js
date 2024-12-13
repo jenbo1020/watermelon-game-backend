@@ -33,7 +33,8 @@ async function default_1(call) {
         startDate: now,
         endDate: 0,
         value: 0,
-        gameDuration: 0
+        gameDuration: 0,
+        compositedTimes: 0
     };
     const result = await Global_1.Global.collection('GameUserRecord').insertOne(record);
     if (!result || !result.insertedId) {
