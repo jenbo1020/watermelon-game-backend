@@ -1,5 +1,5 @@
 # 使用官方的Node.js运行时作为父镜像
-FROM node:16
+FROM node:latest
 
 # 设置工作目录为/app
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # 安装项目依赖
-RUN npm install
+RUN npm install --force
 
 # 复制项目文件到工作目录
 COPY . .
